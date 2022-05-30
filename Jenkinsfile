@@ -1,23 +1,22 @@
-node{
-    def MHD = tool name: "maven3.8.4"
-    stage('code'){
-        git branch: 'development', url: 'https://github.com/LandmakTechnology/web-app'
-    }
-    stage('BUILD'){
-       sh "${MHD}/bin/mvn clean package"
- 
-    }
-    /*
-    stage('deploy'){
-  sshagent(['tomcat']) {
-  sh "scp -o StrictHostKeyChecking=no target/*war ec2-user@172.31.15.31:/opt/tomcat9/webapps/"
-}
-}
-stage('email'){
-emailext body: '''Build is over
-
-Landmark
-437212483''', recipientProviders: [developers(), requestor()], subject: 'Build', to: 'tdapp@gmail.com'
-}
-    */
-}
+node('master')
+  {
+   def mavenHome = tool name: 'maven3.8.5'
+  stage('1.git clone')
+  {
+  git credentialsId: 'bricefotso2001/****** (github_credentials)', url: 'https://github.com/bricefotso2001/maven-web-app.git'
+  }
+  stage('2mavenBuild')
+  { 
+    sh "${mavenHome}/bin/mvn clean package"
+  }
+  stage('3CodeQualityReport')
+  {
+    sh "${mavenHome}/bin/mvn sonar:sonar"
+  }
+  
+  stage('4.UploadWarNexus')
+        {
+        sh "${mavenHome}/bin/mvn deploy"
+        }
+  
+  }
