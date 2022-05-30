@@ -15,6 +15,6 @@ node('master')
   }
   stage('4.DeployUATTomcat')
         {
-deploy adapters: [tomcat8(credentialsId: 'admin/****** (tomcat8)', path: '', url: 'http://18.188.175.198:8080/')], contextPath: null, war: 'target/*.war'
+deploy adapters: [tomcat8(credentialsId: 'tomcat8', path: '', url: 'http://18.188.175.198:8080/')], contextPath: null, war: 'target/*.war'
   }
   }
