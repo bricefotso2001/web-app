@@ -16,7 +16,7 @@ node('master')
   
   stage('4.UploadWarNexus')
         {
-        sh "${mavenHome}/bin/mvn deploy"
+        sh "${mavenHome}/bin/mvn deploy -Dmaven.test.skip=true"
         }
   
   }
