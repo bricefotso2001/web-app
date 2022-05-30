@@ -14,9 +14,10 @@ node('master')
     sh "${mavenHome}/bin/mvn sonar:sonar"
   }
   
-  stage('4.UploadWarNexus')
+  stage('4.DeployPRODUCTIONTomcat')
         {
-        sh "${mavenHome}/bin/mvn deploy"
-        }
+deploy adapters: [tomcat8(credentialsId: 'tomcat8', path: '', url: 'http://18.188.175.198:8080/')], contextPath: null, war: 'target/*.war'
+        } 
+  } 
   
   }
